@@ -1,290 +1,1424 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="منصة جملة للملابس والأحذية - بالجملة فقط">
-    <title>JAMLA | منصة الجملة للموضة</title>
+    <title>TON Gold Mining</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #D4AF37; /* ذهبي أكثر أناقة */
-            --secondary-color: #FFF8E1;
-            --accent-color: #FFC107;
-            --text-color: #2C3E50; /* أزرق داكن أنيق */
-            --light-text: #7F8C8D;
-            --bg-color: #FDFDFD;
-            --card-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --tg-bg: #17212b;
+            --tg-secondary-bg: #232e3c;
+            --tg-text: #ffffff;
+            --tg-hint: #708499;
+            --tg-link: #5ac8fb;
+            --tg-button: #5288c1;
+            --tg-button-text: #ffffff;
+            --tg-accent: #3390ec;
+            --tg-green: #31b545;
+            --tg-yellow: #ffc107;
+            --tg-red: #f44336;
+            --tg-orange: #ff9800;
+            --tg-purple: #9c27b0;
         }
-        
-        body {
-            font-family: 'Tajawal', sans-serif;
+
+        * {
             margin: 0;
             padding: 0;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            height: 100vh;
-            overflow: hidden;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--tg-bg);
+            color: var(--tg-text);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+
+        header {
+            background-color: var(--tg-secondary-bg);
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .app-name {
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .app-logo {
+            width: 24px;
+            height: 24px;
+        }
+
+        .connect-wallet {
+            background-color: var(--tg-button);
+            color: var(--tg-button-text);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .connect-wallet:hover {
+            background-color: var(--tg-accent);
+            transform: translateY(-2px);
+        }
+
+        .page {
+            display: none;
+            padding: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .mining-container {
+            background: linear-gradient(135deg, var(--tg-secondary-bg), #1a2635);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
             position: relative;
-            background-image: linear-gradient(to bottom, #f9f9f9, #ffffff);
-        }
-        
-        .floating-icons {
-            position: absolute;
-            width: 100%;
-            height: 100%;
             overflow: hidden;
-            z-index: 0;
-            pointer-events: none;
         }
-        
-        .floating-icon {
-            position: absolute;
-            opacity: 0.08;
-            color: var(--primary-color);
-            animation: float 18s infinite linear;
-            filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.1));
-        }
-        
-        @keyframes float {
-            0% { transform: translateY(0) rotate(0deg) scale(1); }
-            50% { transform: translateY(-60px) rotate(180deg) scale(1.05); }
-            100% { transform: translateY(0) rotate(360deg) scale(1); }
-        }
-        
-        .login-container {
+
+        .ton-coin {
+            width: 150px;
+            height: 150px;
+            margin: 20px auto;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: block;
             position: relative;
-            z-index: 10;
+            z-index: 1;
+            filter: drop-shadow(0 5px 15px rgba(255, 204, 0, 0.4));
+        }
+
+        .ton-coin:hover {
+            transform: scale(1.05) rotate(5deg);
+        }
+
+        .ton-coin:active {
+            transform: scale(0.95);
+        }
+
+        .mining-info {
+            text-align: center;
+            margin: 15px 0;
+            color: var(--tg-hint);
+            position: relative;
+            z-index: 1;
+        }
+
+        .mining-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--tg-text);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--tg-hint);
+        }
+
+        .bonus-rate {
+            color: var(--tg-green);
+            font-weight: bold;
+            background-color: rgba(49, 181, 69, 0.2);
+            padding: 3px 10px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        .countdown-timer {
+            color: var(--tg-yellow);
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--tg-secondary-bg);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+        }
+
+        .nav-button {
+            background: none;
+            border: none;
+            color: var(--tg-hint);
+            font-size: 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100%;
-            padding: 20px;
-            text-align: center;
-        }
-        
-        .logo {
-            margin-bottom: 40px;
-            animation: fadeIn 1s ease-out;
-        }
-        
-        .logo h1 {
-            font-size: 48px;
-            font-weight: 800;
-            color: var(--primary-color);
-            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15);
-            margin-bottom: 15px;
-            letter-spacing: -1.5px;
+            cursor: pointer;
+            padding: 5px 15px;
+            border-radius: 10px;
+            transition: all 0.3s;
             position: relative;
-            display: inline-block;
         }
-        
-        .logo h1::after {
-            content: "";
+
+        .nav-button.active {
+            color: var(--tg-text);
+            transform: translateY(-5px);
+        }
+
+        .nav-button.active .nav-icon {
+            color: var(--tg-accent);
+        }
+
+        .nav-button.active::after {
+            content: '';
             position: absolute;
             bottom: -10px;
-            right: 0;
-            width: 60%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-color), transparent);
-            border-radius: 3px;
+            width: 5px;
+            height: 5px;
+            background-color: var(--tg-accent);
+            border-radius: 50%;
         }
-        
-        .welcome-message {
+
+        .nav-icon {
             font-size: 22px;
-            color: var(--text-color);
-            margin-bottom: 15px;
-            font-weight: 600;
-            line-height: 1.5;
-            max-width: 500px;
+            margin-bottom: 5px;
+            transition: all 0.3s;
         }
-        
-        .wholesale-notice {
-            background: linear-gradient(to left, #FFF9E6, #FFFDF6);
-            padding: 15px 25px;
-            border-radius: 10px;
-            border-right: 4px solid var(--primary-color);
-            font-weight: 700;
-            color: #C57600;
-            margin-bottom: 40px;
-            max-width: 450px;
-            box-shadow: var(--card-shadow);
-            transition: var(--transition);
-            animation: pulse 2s infinite;
+
+        .task-card {
+            background-color: var(--tg-secondary-bg);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
         }
-        
-        .wholesale-notice:hover {
+
+        .task-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
-        
-        .progress-container {
+
+        .task-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--tg-text);
+        }
+
+        .task-title i {
+            color: var(--tg-accent);
+        }
+
+        .task-progress {
+            height: 8px;
+            background-color: var(--tg-bg);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .task-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--tg-accent), var(--tg-purple));
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .task-button {
+            background: linear-gradient(90deg, var(--tg-accent), var(--tg-button));
+            color: var(--tg-button-text);
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
             width: 100%;
-            max-width: 450px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .task-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(82, 136, 193, 0.4);
+        }
+
+        .task-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: var(--tg-secondary-bg);
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .paid-task {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 12px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .paid-task:hover {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .paid-task-info {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .paid-task-amount {
+            font-weight: bold;
+            color: var(--tg-yellow);
+        }
+
+        .paid-task-reward {
+            color: var(--tg-green);
+            font-weight: bold;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 25px 0 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--tg-text);
+        }
+
+        .section-title i {
+            color: var(--tg-accent);
+        }
+
+        .referral-container {
+            background: linear-gradient(135deg, var(--tg-secondary-bg), #1e2b3a);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .referral-link {
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            word-break: break-all;
+            font-family: monospace;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .referral-link:hover {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .copy-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--tg-hint);
+            transition: all 0.3s;
+        }
+
+        .referral-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+
+        .referral-stat {
+            text-align: center;
+        }
+
+        .referral-stat-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--tg-text);
+        }
+
+        .referral-stat-label {
+            font-size: 12px;
+            color: var(--tg-hint);
+        }
+
+        .referrals-list {
+            background-color: var(--tg-secondary-bg);
+            border-radius: 15px;
+            padding: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .referral-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s;
+        }
+
+        .referral-item:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .referral-name {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .referral-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--tg-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .referral-earnings {
+            color: var(--tg-green);
+            font-weight: bold;
+        }
+
+        .profile-section {
+            background: linear-gradient(135deg, var(--tg-secondary-bg), #1e2b3a);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .profile-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--tg-accent), var(--tg-purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-name {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .profile-wallet {
+            font-size: 12px;
+            color: var(--tg-hint);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .profile-stat {
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .profile-stat-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--tg-yellow);
+            margin-bottom: 5px;
+        }
+
+        .profile-stat-label {
+            font-size: 12px;
+            color: var(--tg-hint);
+        }
+
+        .withdraw-container {
+            text-align: center;
             margin-top: 30px;
         }
-        
-        .progress-text {
-            text-align: center;
-            margin-bottom: 15px;
-            color: var(--light-text);
+
+        .withdraw-button {
+            background: linear-gradient(90deg, var(--tg-green), #2ecc71);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
             font-size: 16px;
-            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
         }
-        
-        .progress-bar {
+
+        .withdraw-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.4);
+        }
+
+        .withdraw-button:disabled {
+            background: var(--tg-secondary-bg);
+            color: var(--tg-hint);
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .info-message {
+            color: var(--tg-hint);
+            font-size: 14px;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: var(--tg-secondary-bg);
+            border-radius: 10px;
+            margin: 20px 0;
             height: 10px;
-            background-color: rgba(0, 0, 0, 0.05);
-            border-radius: 5px;
             overflow: hidden;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
         }
-        
-        .progress {
+
+        .progress-bar {
             height: 100%;
-            width: 0;
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-            border-radius: 5px;
-            transition: width 0.4s ease-out;
-            position: relative;
+            background: linear-gradient(90deg, var(--tg-yellow), var(--tg-orange));
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 12px;
+            color: var(--tg-hint);
+        }
+
+        .mining-animation {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 0;
             overflow: hidden;
         }
-        
-        .progress::after {
-            content: "";
+
+        .coin-particle {
             position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0.1) 0%,
-                rgba(255, 255, 255, 0.6) 50%,
-                rgba(255, 255, 255, 0.1) 100%
-            );
-            animation: shimmer 2s infinite;
+            width: 10px;
+            height: 10px;
+            background-color: var(--tg-yellow);
+            border-radius: 50%;
+            opacity: 0;
+            animation: particle-fly 1s ease-out forwards;
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        @keyframes particle-fly {
+            0% {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty));
+                opacity: 0;
+            }
         }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--tg-green);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.3s ease, fadeOut 0.5s ease 2.5s forwards;
         }
-        
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+
+        @keyframes slideIn {
+            from { top: -50px; opacity: 0; }
+            to { top: 20px; opacity: 1; }
         }
-        
-        /* تأثيرات للشاشات الكبيرة */
-        @media (min-width: 768px) {
-            .logo h1 { font-size: 56px; }
-            .welcome-message { font-size: 24px; }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .mining-container {
+                padding: 15px;
+            }
+            
+            .ton-coin {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .profile-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-icon {
+                font-size: 20px;
+            }
+            
+            .nav-button {
+                padding: 5px 10px;
+            }
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="floating-icons" id="floating-icons"></div>
-    
-    <div class="login-container">
-        <div class="logo">
-            <h1>JAMLA</h1>
-            <div class="welcome-message">مرحباً بكم في منصة جملة الرائدة للملابس والأحذية</div>
-            <div class="wholesale-notice">
-                <i class="fas fa-exclamation-circle" style="margin-left: 8px;"></i>
-                تنبيه: هذه المنصة للبيع بالجملة فقط - الحد الأدنى للطلب 2 سيري
+    <header>
+        <div class="app-name">
+            <img src="https://ton.org/download/ton_symbol.png" alt="TON Logo" class="app-logo">
+            TON Gold Mining
+        </div>
+        <button class="connect-wallet" id="connectWallet">
+            <i class="fas fa-wallet"></i>
+            <span id="walletButtonText">Connect Wallet</span>
+        </button>
+    </header>
+
+    <!-- Home Page -->
+    <div class="page active" id="homePage">
+        <div class="mining-container">
+            <div class="mining-animation" id="miningAnimation"></div>
+            <img src="https://ton.org/download/ton_symbol.png" alt="TON Coin" class="ton-coin" id="tonCoin">
+            <div class="mining-info" id="miningInfo">
+                Click the TON coin to start mining!
+            </div>
+            <div class="countdown-timer" id="countdownTimer"></div>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="miningProgress"></div>
+            </div>
+            <div class="progress-text">
+                <span id="progressMin">0 TON</span>
+                <span id="progressMax">30 TON</span>
+            </div>
+            
+            <div class="mining-stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="currentRate">0.0050</div>
+                    <div class="stat-label">Mining Rate</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="totalMined">0.0000</div>
+                    <div class="stat-label">Total Mined</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="bonusRate">0%</div>
+                    <div class="stat-label">Bonus Rate</div>
+                </div>
             </div>
         </div>
         
-        <div class="progress-container">
-            <p class="progress-text">جاري إعداد لوحة التحكم الخاصة بك...</p>
-            <div class="progress-bar">
-                <div class="progress" id="progress"></div>
+        <div class="section-title">
+            <i class="fas fa-bolt"></i>
+            Mining Boosts
+        </div>
+        
+        <div class="task-card">
+            <div class="task-title">
+                <i class="fas fa-tasks"></i>
+                Daily Task
+            </div>
+            <div class="task-progress">
+                <div class="task-progress-bar" id="dailyTaskProgress"></div>
+            </div>
+            <button class="task-button" id="dailyTaskButton">
+                <i class="fas fa-ad"></i>
+                Watch an Ad (+1% Mining Rate)
+            </button>
+        </div>
+    </div>
+
+    <!-- Tasks Page -->
+    <div class="page" id="tasksPage">
+        <div class="section-title">
+            <i class="fas fa-tasks"></i>
+            Daily Tasks
+        </div>
+        
+        <div class="task-card">
+            <div class="task-title">
+                <i class="fas fa-ad"></i>
+                Watch Ads
+            </div>
+            <div class="task-progress">
+                <div class="task-progress-bar" id="adsProgress"></div>
+            </div>
+            <button class="task-button" id="watchAdButton">
+                <i class="fas fa-play"></i>
+                Watch Ad (0/30) (+1% Mining Rate)
+            </button>
+        </div>
+        
+        <div class="section-title">
+            <i class="fas fa-gem"></i>
+            Premium Tasks
+        </div>
+        
+        <div class="task-card">
+            <div class="paid-task">
+                <div class="paid-task-info">
+                    <i class="fas fa-coins"></i>
+                    <span class="paid-task-amount">1 TON</span>
+                </div>
+                <button class="task-button" id="pay1Ton">
+                    <i class="fas fa-arrow-up"></i>
+                    +5% Rate
+                </button>
+            </div>
+            <div class="paid-task">
+                <div class="paid-task-info">
+                    <i class="fas fa-coins"></i>
+                    <span class="paid-task-amount">3 TON</span>
+                </div>
+                <button class="task-button" id="pay3Ton">
+                    <i class="fas fa-arrow-up"></i>
+                    +20% Rate
+                </button>
+            </div>
+            <div class="paid-task">
+                <div class="paid-task-info">
+                    <i class="fas fa-coins"></i>
+                    <span class="paid-task-amount">5 TON</span>
+                </div>
+                <button class="task-button" id="pay5Ton">
+                    <i class="fas fa-arrow-up"></i>
+                    +30% Rate
+                </button>
+            </div>
+            <div class="paid-task">
+                <div class="paid-task-info">
+                    <i class="fas fa-gem"></i>
+                    <span class="paid-task-amount">10 TON</span>
+                </div>
+                <button class="task-button" id="pay10Ton">
+                    <i class="fas fa-arrow-up"></i>
+                    +60% Rate
+                </button>
             </div>
         </div>
     </div>
 
+    <!-- Friends Page -->
+    <div class="page" id="friendsPage">
+        <div class="referral-container">
+            <div class="section-title">
+                <i class="fas fa-user-plus"></i>
+                Invite Friends
+            </div>
+            <p>Earn 10% commission from each friend you invite!</p>
+            
+            <div class="referral-link" id="referralLink">
+                <i class="fas fa-copy copy-icon" id="copyReferral"></i>
+                <span id="referralText">Loading referral link...</span>
+            </div>
+            
+            <div class="referral-stats">
+                <div class="referral-stat">
+                    <div class="referral-stat-value" id="totalReferrals">0</div>
+                    <div class="referral-stat-label">Total Referrals</div>
+                </div>
+                <div class="referral-stat">
+                    <div class="referral-stat-value" id="referralEarnings">0.00</div>
+                    <div class="referral-stat-label">Referral Earnings (TON)</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-title">
+            <i class="fas fa-users"></i>
+            Your Referred Friends
+        </div>
+        
+        <div class="referrals-list" id="referralsList">
+            <!-- Dynamically populated -->
+        </div>
+    </div>
+
+    <!-- Profile Page -->
+    <div class="page" id="profilePage">
+        <div class="profile-section">
+            <div class="profile-header">
+                <div class="profile-avatar" id="profileAvatar">U</div>
+                <div class="profile-info">
+                    <div class="profile-name" id="profileName">User</div>
+                    <div class="profile-wallet">
+                        <i class="fas fa-wallet"></i>
+                        <span id="walletAddress">Not Connected</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="profile-stats">
+                <div class="profile-stat">
+                    <div class="profile-stat-value" id="profileTotalMined">0.0000</div>
+                    <div class="profile-stat-label">Total Mined</div>
+                </div>
+                <div class="profile-stat">
+                    <div class="profile-stat-value" id="profileReferralEarnings">0.0000</div>
+                    <div class="profile-stat-label">Referral Earnings</div>
+                </div>
+                <div class="profile-stat">
+                    <div class="profile-stat-value" id="profileMiningRate">0.0050</div>
+                    <div class="profile-stat-label">Mining Rate</div>
+                </div>
+                <div class="profile-stat">
+                    <div class="profile-stat-value" id="profileBonusRate">0%</div>
+                    <div class="profile-stat-label">Bonus Rate</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="withdraw-container">
+            <button class="withdraw-button" id="withdrawButton" disabled>
+                <i class="fas fa-coins"></i>
+                Withdraw Balance
+            </button>
+            <div class="info-message" id="withdrawMessage">
+                You haven't reached the minimum withdrawal amount (30 TON) yet. Keep mining!
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-bar">
+        <button class="nav-button active" data-page="homePage">
+            <i class="fas fa-home nav-icon"></i>
+            <span>Home</span>
+        </button>
+        <button class="nav-button" data-page="tasksPage">
+            <i class="fas fa-tasks nav-icon"></i>
+            <span>Tasks</span>
+        </button>
+        <button class="nav-button" data-page="friendsPage">
+            <i class="fas fa-users nav-icon"></i>
+            <span>Friends</span>
+        </button>
+        <button class="nav-button" data-page="profilePage">
+            <i class="fas fa-user nav-icon"></i>
+            <span>Profile</span>
+        </button>
+    </div>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // إنشاء الأيقونات العائمة بشكل أكثر ديناميكية
-            const floatingIcons = document.getElementById('floating-icons');
-            const icons = [
-                'fas fa-tshirt', 'fas fa-shoe-prints', 'fas fa-boxes',
-                'fas fa-truck', 'fas fa-warehouse', 'fas fa-tag',
-                'fas fa-percent', 'fas fa-shopping-basket'
-            ];
-            
-            // إنشاء 20 أيقونة مع توزيع أفضل
-            for (let i = 0; i < 20; i++) {
-                const icon = document.createElement('i');
-                icon.className = icons[Math.floor(Math.random() * icons.length)] + ' floating-icon';
-                
-                // توزيع أكثر ذكاءً للأيقونات
-                const sector = i % 4;
-                let left, top;
-                
-                if (sector === 0) {
-                    left = Math.random() * 30;
-                    top = Math.random() * 30;
-                } else if (sector === 1) {
-                    left = 70 + Math.random() * 30;
-                    top = Math.random() * 30;
-                } else if (sector === 2) {
-                    left = Math.random() * 30;
-                    top = 70 + Math.random() * 30;
-                } else {
-                    left = 70 + Math.random() * 30;
-                    top = 70 + Math.random() * 30;
-                }
-                
-                icon.style.left = left + '%';
-                icon.style.top = top + '%';
-                icon.style.fontSize = (Math.random() * 25 + 20) + 'px';
-                icon.style.animationDelay = Math.random() * 5 + 's';
-                icon.style.animationDuration = (Math.random() * 15 + 15) + 's';
-                icon.style.opacity = 0.05 + Math.random() * 0.08;
-                
-                floatingIcons.appendChild(icon);
+        // Enhanced User Data Model
+        class UserData {
+            constructor() {
+                this.walletConnected = false;
+                this.walletAddress = '';
+                this.telegramUsername = '';
+                this.lastMined = 0;
+                this.totalMined = 0;
+                this.referralEarnings = 0;
+                this.adsWatched = 0;
+                this.bonusRate = 0;
+                this.referrals = [];
+                this.referralCode = '';
+                this.paidTasks = {
+                    pay1Ton: false,
+                    pay3Ton: false,
+                    pay5Ton: false,
+                    pay10Ton: false
+                };
+                this.miningHistory = [];
+                this.settings = {
+                    notifications: true,
+                    vibration: true
+                };
             }
-            
-            // تحميل أكثر سلاسة مع تأثير التقدم
-            let width = 0;
-            const progressBar = document.getElementById('progress');
-            const progressText = document.querySelector('.progress-text');
-            const messages = [
-                "جاري تحميل البيانات...",
-                "جاري إعداد الكتالوج...",
-                "جاري تحميل العروض...",
-                "جاري التحضير للعرض..."
-            ];
-            
-            const interval = setInterval(function() {
-                if (width >= 100) {
-                    clearInterval(interval);
-                    progressText.textContent = "جاهز! جاري التوجيه إلى لوحة التحكم...";
-                    setTimeout(() => {
-                        window.location.href = "home.html";
-                    }, 800);
-                } else {
-                    width += 0.7;
-                    progressBar.style.width = width + '%';
-                    
-                    // تغيير الرسالة حسب مرحلة التحميل
-                    if (width > 25 && width < 30) progressText.textContent = messages[1];
-                    else if (width > 50 && width < 55) progressText.textContent = messages[2];
-                    else if (width > 75 && width < 80) progressText.textContent = messages[3];
+        }
+
+        // App Controller
+        class TONGoldMiningApp {
+            constructor() {
+                this.userData = new UserData();
+                this.initElements();
+                this.initEventListeners();
+                this.loadUserData();
+                this.checkTelegramUser();
+                this.generateReferralCode();
+                this.startCountdown();
+                this.updateUI();
+            }
+
+            initElements() {
+                // Wallet
+                this.connectWalletBtn = document.getElementById('connectWallet');
+                this.walletButtonText = document.getElementById('walletButtonText');
+                
+                // Mining
+                this.tonCoin = document.getElementById('tonCoin');
+                this.miningInfo = document.getElementById('miningInfo');
+                this.countdownTimer = document.getElementById('countdownTimer');
+                this.currentRate = document.getElementById('currentRate');
+                this.totalMined = document.getElementById('totalMined');
+                this.bonusRate = document.getElementById('bonusRate');
+                this.miningProgress = document.getElementById('miningProgress');
+                this.progressMin = document.getElementById('progressMin');
+                this.progressMax = document.getElementById('progressMax');
+                this.miningAnimation = document.getElementById('miningAnimation');
+                
+                // Navigation
+                this.navButtons = document.querySelectorAll('.nav-button');
+                this.pages = {
+                    homePage: document.getElementById('homePage'),
+                    tasksPage: document.getElementById('tasksPage'),
+                    friendsPage: document.getElementById('friendsPage'),
+                    profilePage: document.getElementById('profilePage')
+                };
+                
+                // Tasks
+                this.adsProgress = document.getElementById('adsProgress');
+                this.watchAdButton = document.getElementById('watchAdButton');
+                this.pay1Ton = document.getElementById('pay1Ton');
+                this.pay3Ton = document.getElementById('pay3Ton');
+                this.pay5Ton = document.getElementById('pay5Ton');
+                this.pay10Ton = document.getElementById('pay10Ton');
+                this.dailyTaskProgress = document.getElementById('dailyTaskProgress');
+                this.dailyTaskButton = document.getElementById('dailyTaskButton');
+                
+                // Friends
+                this.referralLink = document.getElementById('referralLink');
+                this.referralText = document.getElementById('referralText');
+                this.copyReferral = document.getElementById('copyReferral');
+                this.totalReferrals = document.getElementById('totalReferrals');
+                this.referralEarnings = document.getElementById('referralEarnings');
+                this.referralsList = document.getElementById('referralsList');
+                
+                // Profile
+                this.profileAvatar = document.getElementById('profileAvatar');
+                this.profileName = document.getElementById('profileName');
+                this.walletAddress = document.getElementById('walletAddress');
+                this.profileTotalMined = document.getElementById('profileTotalMined');
+                this.profileReferralEarnings = document.getElementById('profileReferralEarnings');
+                this.profileMiningRate = document.getElementById('profileMiningRate');
+                this.profileBonusRate = document.getElementById('profileBonusRate');
+                this.withdrawButton = document.getElementById('withdrawButton');
+                this.withdrawMessage = document.getElementById('withdrawMessage');
+            }
+
+            initEventListeners() {
+                // Navigation
+                this.navButtons.forEach(button => {
+                    button.addEventListener('click', () => this.switchPage(button.dataset.page));
+                });
+
+                // Wallet connection
+                this.connectWalletBtn.addEventListener('click', () => this.toggleWalletConnection());
+
+                // Mining
+                this.tonCoin.addEventListener('click', () => this.mineTon());
+
+                // Tasks
+                this.watchAdButton.addEventListener('click', () => this.watchAd());
+                this.pay1Ton.addEventListener('click', () => this.completePaidTask('pay1Ton'));
+                this.pay3Ton.addEventListener('click', () => this.completePaidTask('pay3Ton'));
+                this.pay5Ton.addEventListener('click', () => this.completePaidTask('pay5Ton'));
+                this.pay10Ton.addEventListener('click', () => this.completePaidTask('pay10Ton'));
+                this.dailyTaskButton.addEventListener('click', () => this.completeDailyTask());
+                
+                // Referral
+                this.copyReferral.addEventListener('click', () => this.copyReferralLink());
+                this.referralLink.addEventListener('click', () => this.copyReferralLink());
+                
+                // Withdraw
+                this.withdrawButton.addEventListener('click', () => this.withdraw());
+            }
+
+            // Constants
+            static get BASE_MINING_RATE() { return 0.005; }
+            static get MIN_WITHDRAWAL() { return 30; }
+            static get AD_REWARD() { return 1; }
+            static get TASK_REWARDS() { 
+                return {
+                    pay1Ton: 5,
+                    pay3Ton: 20,
+                    pay5Ton: 30,
+                    pay10Ton: 60
+                };
+            }
+            static get DAILY_TASK_REWARD() { return 0.001; }
+
+            // Data Management
+            loadUserData() {
+                const savedData = localStorage.getItem('tonGoldMiningData');
+                if (savedData) {
+                    this.userData = Object.assign(new UserData(), JSON.parse(savedData));
                 }
-            }, 40);
-        });
+            }
+
+            saveUserData() {
+                localStorage.setItem('tonGoldMiningData', JSON.stringify(this.userData));
+            }
+
+            // Navigation
+            switchPage(pageId) {
+                this.navButtons.forEach(btn => btn.classList.remove('active'));
+                document.querySelector(`.nav-button[data-page="${pageId}"]`).classList.add('active');
+                
+                Object.values(this.pages).forEach(page => {
+                    page.classList.remove('active');
+                });
+                
+                this.pages[pageId].classList.add('active');
+            }
+
+            // Wallet Functions
+            toggleWalletConnection() {
+                if (this.userData.walletConnected) {
+                    this.userData.walletConnected = false;
+                    this.userData.walletAddress = '';
+                    this.showNotification('Wallet disconnected');
+                } else {
+                    // Simulate wallet connection
+                    this.userData.walletConnected = true;
+                    this.userData.walletAddress = 'EQ' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+                    this.showNotification('Wallet connected successfully');
+                }
+                this.saveUserData();
+                this.updateUI();
+            }
+
+            // Mining Functions
+            mineTon() {
+                const now = Date.now();
+                const lastMinedTime = this.userData.lastMined;
+                
+                // Check if 24 hours have passed since last mining
+                if (lastMinedTime && (now - lastMinedTime) < 24 * 60 * 60 * 1000) {
+                    return;
+                }
+                
+                // Calculate mining amount with bonus
+                const miningAmount = TONGoldMiningApp.BASE_MINING_RATE * (1 + this.userData.bonusRate / 100);
+                
+                this.userData.totalMined += miningAmount;
+                this.userData.lastMined = now;
+                this.userData.miningHistory.push({
+                    amount: miningAmount,
+                    timestamp: now
+                });
+                
+                this.saveUserData();
+                this.updateUI();
+                this.createParticles();
+                
+                this.tonCoin.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    this.tonCoin.style.transform = 'scale(1)';
+                }, 200);
+                
+                this.miningInfo.textContent = `+${miningAmount.toFixed(4)} TON mined!`;
+                this.showNotification(`${miningAmount.toFixed(4)} TON mined successfully!`);
+            }
+
+            createParticles() {
+                this.miningAnimation.innerHTML = '';
+                for (let i = 0; i < 20; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('coin-particle');
+                    
+                    const angle = Math.random() * Math.PI * 2;
+                    const distance = 50 + Math.random() * 100;
+                    const tx = Math.cos(angle) * distance;
+                    const ty = Math.sin(angle) * distance;
+                    
+                    particle.style.setProperty('--tx', `${tx}px`);
+                    particle.style.setProperty('--ty', `${ty}px`);
+                    
+                    const size = 5 + Math.random() * 10;
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    particle.style.left = `${50 + Math.cos(angle) * 20}%`;
+                    particle.style.top = `${50 + Math.sin(angle) * 20}%`;
+                    particle.style.animationDelay = `${Math.random() * 0.2}s`;
+                    
+                    this.miningAnimation.appendChild(particle);
+                }
+            }
+
+            // Task Functions
+            watchAd() {
+                if (this.userData.adsWatched >= 30) return;
+                
+                // Simulate ad watching
+                this.watchAdButton.disabled = true;
+                this.watchAdButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading ad...';
+                
+                setTimeout(() => {
+                    this.userData.adsWatched++;
+                    this.userData.bonusRate += TONGoldMiningApp.AD_REWARD;
+                    
+                    this.saveUserData();
+                    this.updateUI();
+                    this.showNotification('+1% Mining Rate! Thank you for watching');
+                }, 3000);
+            }
+
+            completeDailyTask() {
+                const now = new Date();
+                const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                
+                // Check if already completed today
+                const hasCompleted = this.userData.miningHistory.some(entry => {
+                    const entryDate = new Date(entry.timestamp);
+                    return entryDate >= today && entry.isDailyTask;
+                });
+                
+                if (hasCompleted) return;
+                
+                this.userData.totalMined += TONGoldMiningApp.DAILY_TASK_REWARD;
+                this.userData.miningHistory.push({
+                    amount: TONGoldMiningApp.DAILY_TASK_REWARD,
+                    timestamp: now.getTime(),
+                    isDailyTask: true
+                });
+                
+                this.saveUserData();
+                this.updateUI();
+                this.showNotification(`+${TONGoldMiningApp.DAILY_TASK_REWARD} TON for daily task!`);
+            }
+
+            completePaidTask(taskId) {
+                if (this.userData.paidTasks[taskId]) return;
+                
+                // In a real app, this would trigger a payment
+                this.showNotification(`Payment interface will open for ${taskId}`);
+                
+                this.userData.paidTasks[taskId] = true;
+                this.userData.bonusRate += TONGoldMiningApp.TASK_REWARDS[taskId];
+                
+                this.saveUserData();
+                this.updateUI();
+                this.showNotification(`+${TONGoldMiningApp.TASK_REWARDS[taskId]}% Mining Rate!`);
+            }
+
+            // Referral Functions
+            generateReferralCode() {
+                if (!this.userData.referralCode) {
+                    this.userData.referralCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+                    this.saveUserData();
+                }
+            }
+
+            copyReferralLink() {
+                if (!this.userData.referralCode) return;
+                
+                const link = `https://tonmining.app?ref=${this.userData.referralCode}`;
+                navigator.clipboard.writeText(link).then(() => {
+                    this.showNotification('Referral link copied!');
+                    this.copyReferral.className = 'fas fa-check copy-icon';
+                    setTimeout(() => {
+                        this.copyReferral.className = 'fas fa-copy copy-icon';
+                    }, 2000);
+                });
+            }
+
+            // Withdraw Function
+            withdraw() {
+                if (this.userData.totalMined < TONGoldMiningApp.MIN_WITHDRAWAL) return;
+                
+                this.showNotification(`Withdrawing ${this.userData.totalMined.toFixed(4)} TON to your wallet...`);
+                this.userData.totalMined = 0;
+                this.saveUserData();
+                this.updateUI();
+            }
+
+            // Telegram Integration
+            checkTelegramUser() {
+                // In a real app, this would check Telegram WebApp initData
+                const urlParams = new URLSearchParams(window.location.search);
+                const tgUser = urlParams.get('tg_user');
+                const refCode = urlParams.get('ref');
+                
+                if (tgUser && !this.userData.telegramUsername) {
+                    this.userData.telegramUsername = tgUser;
+                    
+                    // Check for referral
+                    if (refCode) {
+                        setTimeout(() => {
+                            this.showNotification(`You were invited by ${refCode}! You'll get extra rewards`);
+                        }, 1500);
+                    }
+                    
+                    this.saveUserData();
+                    this.updateUI();
+                }
+            }
+
+            // UI Updates
+            updateUI() {
+                this.updateWalletUI();
+                this.updateMiningUI();
+                this.updateTasksUI();
+                this.updateReferralsUI();
+                this.updateProfileUI();
+            }
+
+            updateWalletUI() {
+                this.walletButtonText.textContent = this.userData.walletConnected ? 'Wallet Connected' : 'Connect Wallet';
+                this.walletAddress.textContent = this.userData.walletConnected ? 
+                    this.shortenAddress(this.userData.walletAddress) : 'Not Connected';
+            }
+
+            updateMiningUI() {
+                const now = Date.now();
+                const lastMinedTime = this.userData.lastMined;
+                const canMineAgain = !lastMinedTime || (now - lastMinedTime) >= 24 * 60 * 60 * 1000;
+                
+                if (!canMineAgain) {
+                    this.tonCoin.style.opacity = '0.7';
+                    this.tonCoin.style.cursor = 'not-allowed';
+                    this.tonCoin.style.filter = 'drop-shadow(0 5px 15px rgba(255, 204, 0, 0.2))';
+                } else {
+                    this.miningInfo.textContent = 'Click the TON coin to mine!';
+                    this.tonCoin.style.opacity = '1';
+                    this.tonCoin.style.cursor = 'pointer';
+                    this.tonCoin.style.filter = 'drop-shadow(0 5px 15px rgba(255, 204, 0, 0.6))';
+                }
+                
+                const currentRateValue = TONGoldMiningApp.BASE_MINING_RATE * (1 + this.userData.bonusRate / 100);
+                this.currentRate.textContent = currentRateValue.toFixed(4);
+                this.profileMiningRate.textContent = currentRateValue.toFixed(4);
+                
+                this.bonusRate.textContent = `${this.userData.bonusRate}%`;
+                this.profileBonusRate.textContent = `${this.userData.bonusRate}%`;
+                
+                this.totalMined.textContent = this.userData.totalMined.toFixed(4);
+                this.profileTotalMined.textContent = this.userData.totalMined.toFixed(4);
+                
+                const progressPercent = Math.min((this.userData.totalMined / TONGoldMiningApp.MIN_WITHDRAWAL) * 100, 100);
+                this.miningProgress.style.width = `${progressPercent}%`;
+                this.progressMin.textContent = `${this.userData.totalMined.toFixed(4)} TON`;
+                this.progressMax.textContent = `${TONGoldMiningApp.MIN_WITHDRAWAL} TON`;
+            }
+
+            updateTasksUI() {
+                const adsPercent = (this.userData.adsWatched / 30) * 100;
+                this.adsProgress.style.width = `${adsPercent}%`;
+                this.watchAdButton.disabled = this.userData.adsWatched >= 30;
+                this.watchAdButton.innerHTML = this.userData.adsWatched >= 30 ? 
+                    '<i class="fas fa-check"></i> Task Completed!' : 
+                    `<i class="fas fa-play"></i> Watch Ad (${this.userData.adsWatched}/30) (+${TONGoldMiningApp.AD_REWARD}% Mining Rate)`;
+                
+                const hasCompletedDailyTask = this.userData.miningHistory.some(entry => {
+                    const entryDate = new Date(entry.timestamp);
+                    const today = new Date();
+                    return entryDate.getDate() === today.getDate() && 
+                           entryDate.getMonth() === today.getMonth() && 
+                           entryDate.getFullYear() === today.getFullYear();
+                });
+                
+                this.dailyTaskProgress.style.width = hasCompletedDailyTask ? '100%' : '0%';
+                this.dailyTaskButton.disabled = hasCompletedDailyTask;
+                this.dailyTaskButton.innerHTML = hasCompletedDailyTask ? 
+                    '<i class="fas fa-check"></i> Daily Task Completed!' : 
+                    '<i class="fas fa-gem"></i> Complete Daily Task (+0.001 TON)';
+                
+                this.pay1Ton.disabled = this.userData.paidTasks.pay1Ton;
+                this.pay1Ton.innerHTML = this.userData.paidTasks.pay1Ton ? 
+                    '<i class="fas fa-check"></i> Completed' : 
+                    '<i class="fas fa-arrow-up"></i> +5% Rate';
+                
+                this.pay3Ton.disabled = this.userData.paidTasks.pay3Ton;
+                this.pay3Ton.innerHTML = this.userData.paidTasks.pay3Ton ? 
+                    '<i class="fas fa-check"></i> Completed' : 
+                    '<i class="fas fa-arrow-up"></i> +20% Rate';
+                
+                this.pay5Ton.disabled = this.userData.paidTasks.pay5Ton;
+                this.pay5Ton.innerHTML = this.userData.paidTasks.pay5Ton ? 
+                    '<i class="fas fa-check"></i> Completed' : 
+                    '<i class="fas fa-arrow-up"></i> +30% Rate';
+                
+                this.pay10Ton.disabled = this.userData.paidTasks.pay10Ton;
+                this.pay10Ton.innerHTML = this.userData.paidTasks.pay10Ton ? 
+                    '<i class="fas fa-check"></i> Completed' : 
+                    '<i class="fas fa-arrow-up"></i> +60% Rate';
+            }
+
+            updateReferralsUI() {
+                if (this.userData.referralCode) {
+                    this.referralText.textContent = `https://tonmining.app?ref=${this.userData.referralCode}`;
+                }
+                
+                this.totalReferrals.textContent = this.userData.referrals.length;
+                this.referralEarnings.textContent = this.userData.referralEarnings.toFixed(4);
+                this.profileReferralEarnings.textContent = this.userData.referralEarnings.toFixed(4);
+                
+                this.referralsList.innerHTML = this.userData.referrals.map(ref => `
+                    <div class="referral-item">
+                        <div class="referral-name">
+                            <div class="referral-avatar">${ref.name.charAt(0)}</div>
+                            <div>${ref.name}</div>
+                        </div>
+                        <div class="referral-earnings">+${ref.earnings.toFixed(4)} TON</div>
+                    </div>
+                `).join('');
+            }
+
+            updateProfileUI() {
+                this.profileName.textContent = this.userData.telegramUsername || 'User';
+                this.profileAvatar.textContent = this.userData.telegramUsername ? 
+                    this.userData.telegramUsername.charAt(0) : 'U';
+                
+                this.withdrawButton.disabled = this.userData.totalMined < TONGoldMiningApp.MIN_WITHDRAWAL;
+                if (this.userData.totalMined < TONGoldMiningApp.MIN_WITHDRAWAL) {
+                    this.withdrawMessage.textContent = `You haven't reached the minimum withdrawal amount (${TONGoldMiningApp.MIN_WITHDRAWAL} TON) yet. Keep mining!`;
+                } else {
+                    this.withdrawMessage.textContent = 'You can now withdraw your TON balance!';
+                }
+            }
+
+            // Utility Functions
+            showNotification(message) {
+                if (!this.userData.settings.notifications) return;
+                
+                const notification = document.createElement('div');
+                notification.className = 'notification';
+                notification.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, 3000);
+            }
+
+            startCountdown() {
+                setInterval(() => {
+                    const now = Date.now();
+                    const lastMinedTime = this.userData.lastMined;
+                    const nextMineTime = lastMinedTime + 24 * 60 * 60 * 1000;
+                    const timeLeft = nextMineTime - now;
+                    
+                    if (timeLeft > 0) {
+                        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                        
+                        this.countdownTimer.textContent = `Next mining in: ${Math.floor(hours)}h ${Math.floor(minutes)}m ${Math.floor(seconds)}s`;
+                    } else {
+                        this.countdownTimer.textContent = '';
+                    }
+                }, 1000);
+            }
+
+            shortenAddress(address) {
+                if (address.length <= 10) return address;
+                return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
+            }
+        }
+
+        // Initialize the app
+        const app = new TONGoldMiningApp();
     </script>
 </body>
 </html>
