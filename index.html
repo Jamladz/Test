@@ -77,7 +77,8 @@
       margin: 0;
       font-size: 18px;
       order: 0;
-      text-shadow: 0 0 5px rgba(255, 215, 0, 0.3); /* Subtle gold text glow */
+      color: #ffd700; /* Gold color for the title */
+      text-shadow: 0 0 5px rgba(255, 215, 0, 0.5); /* Enhanced gold text glow */
     }
 
     .ton-button {
@@ -137,6 +138,7 @@
       height: 180px;
       object-fit: cover;
       display: block;
+      cursor: pointer;
     }
 
     /* Tasks Header */
@@ -361,6 +363,167 @@
       transition: all 0.3s ease;
     }
 
+    /* Popup Modal Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-content {
+      background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+      border-radius: 16px;
+      width: 90%;
+      max-width: 400px;
+      padding: 25px;
+      box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      position: relative;
+      transform: scale(0.9);
+      transition: all 0.3s ease;
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      color: #ffd700;
+      font-size: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .modal-close:hover {
+      transform: rotate(90deg);
+    }
+
+    .modal-title {
+      color: #ffd700;
+      font-size: 20px;
+      margin-bottom: 15px;
+      text-align: center;
+      text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+    }
+
+    .modal-description {
+      color: #ccc;
+      font-size: 14px;
+      margin-bottom: 20px;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .referral-box {
+      background: rgba(30, 30, 30, 0.8);
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      position: relative;
+    }
+
+    .referral-label {
+      color: #ffd700;
+      font-size: 12px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .referral-input {
+      display: flex;
+      align-items: center;
+    }
+
+    .referral-input input {
+      flex: 1;
+      background: rgba(20, 20, 20, 0.8);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      border-radius: 6px 0 0 6px;
+      padding: 10px 15px;
+      color: white;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .copy-button {
+      background: linear-gradient(135deg, #ffd700 0%, #ffcc00 100%);
+      border: none;
+      color: #222;
+      padding: 10px 15px;
+      border-radius: 0 6px 6px 0;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .copy-button:hover {
+      background: linear-gradient(135deg, #ffcc00 0%, #ffd700 100%);
+    }
+
+    .modal-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .modal-button {
+      background: linear-gradient(135deg, #ffd700 0%, #ffcc00 100%);
+      border: none;
+      color: #222;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
+    }
+
+    .modal-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.5);
+    }
+
+    .modal-button.secondary {
+      background: transparent;
+      color: #ffd700;
+      border: 1px solid rgba(255, 215, 0, 0.5);
+      box-shadow: none;
+    }
+
+    .modal-button.secondary:hover {
+      background: rgba(255, 215, 0, 0.1);
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+    }
+
     /* Responsive adjustments */
     @media (max-width: 480px) {
       .image-row {
@@ -412,6 +575,14 @@
         width: 18px;
         height: 18px;
       }
+
+      .modal-content {
+        padding: 20px;
+      }
+
+      .modal-title {
+        font-size: 18px;
+      }
     }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -429,7 +600,7 @@
   <div class="content">
     <div class="image-row">
       <div class="image-container">
-        <a href="#"><img src="https://i.suar.me/vp42L/l" alt="Image 1"></a>
+        <img src="https://i.suar.me/vp42L/l" alt="Image 1" class="first-image">
       </div>
       <div class="image-container">
         <a href="#"><img src="https://i.suar.me/E7Ovj/l" alt="Image 2"></a>
@@ -442,8 +613,8 @@
         <i class="fas fa-tasks"></i> Tasks
       </div>
       <div class="points-counter">
-        <img src="https://i.suar.me/j5M1W/l" alt="EP" class="ep-logo">
-        <span>1,250 EP</span>
+        <img src="https://i.suar.me/2WGxe/l" alt="EP" class="ep-logo">
+        <span> 0 EP</span>
       </div>
     </div>
 
@@ -454,7 +625,7 @@
         <div class="task-header">
           <div class="task-title">Daily Reward</div>
           <div class="ep-reward">
-            <img src="https://i.suar.me/j5M1W/l" alt="EP" class="ep-logo">
+            <img src="https://i.suar.me/2WGxe/l" alt="EP" class="ep-logo">
             <span>50 EP</span>
           </div>
         </div>
@@ -472,7 +643,7 @@
         <div class="task-header">
           <div class="task-title">Watch Ad</div>
           <div class="ep-reward">
-            <img src="https://i.suar.me/j5M1W/l" alt="EP" class="ep-logo">
+            <img src="https://i.suar.me/2WGxe/l" alt="EP" class="ep-logo">
             <span>10 EP</span>
           </div>
         </div>
@@ -483,6 +654,34 @@
           <i class="fas fa-play"></i> Watch Ad
         </button>
         <div class="timer">Available now</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Referral Popup Modal -->
+  <div class="modal-overlay" id="referralModal">
+    <div class="modal-content">
+      <button class="modal-close" id="closeModal">×</button>
+      <h2 class="modal-title">Invite Friends & Earn</h2>
+      <p class="modal-description">Share your referral link with friends and earn bonus EP points when they join and complete tasks.</p>
+      
+      <div class="referral-box">
+        <span class="referral-label">Your Referral Link:</span>
+        <div class="referral-input">
+          <input type="text" id="referralLink" value="https://portalearn.com/ref/user123" readonly>
+          <button class="copy-button" id="copyButton">
+            <i class="fas fa-copy"></i> Copy
+          </button>
+        </div>
+      </div>
+      
+      <div class="modal-actions">
+        <button class="modal-button">
+          <i class="fas fa-share-alt"></i> Share Link
+        </button>
+        <button class="modal-button secondary">
+          Learn More
+        </button>
       </div>
     </div>
   </div>
@@ -594,6 +793,51 @@
     }
     
     window.addEventListener('load', updateDailyTimer);
+
+    // Referral Modal Functionality
+    const firstImage = document.querySelector('.first-image');
+    const referralModal = document.getElementById('referralModal');
+    const closeModal = document.getElementById('closeModal');
+    const copyButton = document.getElementById('copyButton');
+    const referralLink = document.getElementById('referralLink');
+
+    // Show modal when first image is clicked
+    firstImage.addEventListener('click', () => {
+      referralModal.classList.add('active');
+    });
+
+    // Close modal when close button is clicked
+    closeModal.addEventListener('click', () => {
+      referralModal.classList.remove('active');
+    });
+
+    // Close modal when clicking outside the modal content
+    referralModal.addEventListener('click', (e) => {
+      if (e.target === referralModal) {
+        referralModal.classList.remove('active');
+      }
+    });
+
+    // Copy referral link functionality
+    copyButton.addEventListener('click', () => {
+      referralLink.select();
+      document.execCommand('copy');
+      
+      // Change button text temporarily
+      const originalText = copyButton.innerHTML;
+      copyButton.innerHTML = '<i class="fas fa-check"></i> Copied!';
+      
+      setTimeout(() => {
+        copyButton.innerHTML = originalText;
+      }, 2000);
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && referralModal.classList.contains('active')) {
+        referralModal.classList.remove('active');
+      }
+    });
   </script>
 
 </body>
